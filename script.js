@@ -104,5 +104,85 @@ submitBtn.addEventListener("click", function () {
     email: inpEmail,
   };
 
-  createUser(userObj);
+  if (inpName && inpUsername && inpEmail) {
+    createUser(userObj);
+  } else {
+    alert(`Fields can't be empty!`);
+  }
+  
 });
+
+// Clear Container
+function cleanContainer() {
+  let cont = document.querySelector('.container');
+  cont.innerHTML = '';
+}
+
+
+
+// Sorting
+let sortType = document.querySelector('#select-bar').value
+
+// Sort Functions - 
+function sortByName(arr, sortType) {
+  if (sortType=="name-asc") {
+    return arr.slice().sort((a,b) => a.name.localeCompare(b.name))
+  } else if (sortType=="name-dec") {
+    return arr.slice().sort((a,b) => b.name.localeCompare(a.name))
+  }
+  
+};
+
+function sortByUsername(arr, sortType) {
+  if (sortType=="username-asc") {
+    return arr.slice().sort((a,b) => a.username.localeCompare(b.username))
+  } else if (sortType=="username-dec") {
+    return arr.slice().sort((a,b) => b.username.localeCompare(a.username))
+  }
+  
+};
+
+function sortByEmail(arr, sortType) {
+  if (sortType=="email-asc") {
+    return arr.slice().sort((a,b) => a.email.localeCompare(b.email))
+  } else if (sortType=="email-dec") {
+    return arr.slice().sort((a,b) => b.email.localeCompare(a.email))
+  }
+  
+};
+// Sort Functions ^^
+let selectBar = document.querySelector('#select-bar');
+
+selectBar.addEventListener('change', function () {
+  sortType = selectBar.value;
+
+  if (sortType) {
+    if (sortType=="name-asc" || sortType=="name-dec") {
+      let sortedUserByName = sortByName(user, sortType);
+      user = sortedUserByName;
+      // Updating Cards in Container
+      cleanContainer();
+      for (const u of user) {
+        createUser(u);
+      }
+    } else if (sortType=="username-asc" || sortType=="username-dec") {
+      let sortedUserByUsername= sortByUsername(user, sortType);
+      user = sortedUserByUsername;
+      // Updating Cards in Container
+      cleanContainer();
+      for (const u of user) {
+        createUser(u);
+      }
+    } else if (sortType=="email-asc" || sortType=="email-dec") {
+      let sortedUserByEmail = sortByEmail(user, sortType);
+      user = sortedUserByEmail;
+      // Updating Cards in Container
+      cleanContainer();
+      for (const u of user) {
+        createUser(u);
+      }
+    }
+  } else {
+    alert (`Select a valid sort option!`)
+  }
+})
